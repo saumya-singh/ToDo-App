@@ -24,6 +24,10 @@ def get_tasks_list(userid):
     result = db_handler.list_tasks_from_db(userid)
     return create_json_result(result)
 
+def get_one_task(userid, taskid):
+    result = db_handler.task_from_db(userid, taskid)
+    return create_json_result(result)
+
 def create_json_result(result):
     if result[1] == 1:
         json_send = {"status" : "success", "data" : result[0]}

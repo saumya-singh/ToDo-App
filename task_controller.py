@@ -13,5 +13,9 @@ def insert(userid):
 def get_tasks(userid):
 	return task_model.get_tasks_list(userid)
 
+@app.route('/api/users/<userid>/tasks/<taskid>/', methods = ["GET"])
+def get_task(userid, taskid):
+	return task_model.get_one_task(userid, taskid)
+
 if __name__ == '__main__':
    app.run(debug = True)
