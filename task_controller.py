@@ -17,5 +17,9 @@ def get_tasks(userid):
 def get_task(userid, taskid):
 	return task_model.get_one_task(userid, taskid)
 
+@app.route('/api/users/<userid>/tasks/<taskid>/', methods = ["DELETE"])
+def delete(userid, taskid):
+	return task_model.delete_task(userid, taskid)
+
 if __name__ == '__main__':
    app.run(debug = True)

@@ -28,6 +28,10 @@ def get_one_task(userid, taskid):
     result = db_handler.task_from_db(userid, taskid)
     return create_json_result(result)
 
+def delete_task(userid, taskid):
+    result = db_handler.delete_task_from_db(userid, taskid)
+    return create_json_result(result)
+
 def create_json_result(result):
     if result[1] == 1:
         json_send = {"status" : "success", "data" : result[0]}

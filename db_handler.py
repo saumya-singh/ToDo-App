@@ -42,6 +42,15 @@ def task_from_db(userid, taskid):
     formatted_task_details = formatting_func(json.loads(task_details))
     return [formatted_task_details, 1]
 
+def delete_task_from_db(userid, taskid):
+    client = MongoClient()
+    db = client.todo_database
+    return_values = db.tasks.delete_one({"created_by": userid, "_id" : ObjectId(taskid)})
+    if return_values.deleted_count == 0:
+        return ["Incorrect task Id for the given user", 0]
+    elif return_values.deleted_count == 1:
+        return ["Task deleted successfully", 1]
+
 def formatting_func(data):
     data["_id"] = data["_id"]["$oid"]
     data["created_time"] = data["created_time"]["$date"]
