@@ -10,12 +10,17 @@ def insert(userid):
 	return task_model.insert_task(content, userid)
 
 @app.route('/api/users/<userid>/tasks/', methods = ["GET"])
-def get_tasks(userid):
+def get_all_tasks(userid):
 	return task_model.get_tasks_list(userid)
 
 @app.route('/api/users/<userid>/tasks/<taskid>/', methods = ["GET"])
 def get_task(userid, taskid):
 	return task_model.get_one_task(userid, taskid)
+
+@app.route('/api/users/<userid>/tasks/<taskid>/', methods = ["PUT"])
+def update(userid, taskid):
+	content = request.get_json()
+	return task_model.update_task(content, userid, taskid)
 
 @app.route('/api/users/<userid>/tasks/<taskid>/', methods = ["DELETE"])
 def delete(userid, taskid):
