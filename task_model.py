@@ -7,7 +7,7 @@ def insert_task(content, userid):
         return create_json_response(result)
     elif res[1] == 1:
         content = res[0]
-    task = {"title" : content["title"], "description" : content["description"], \
+    task = {"title" : content["title"], "description" : content["description"],\
             "created_time" : datetime.datetime.utcnow(), "created_by" : userid,\
             "deadline" : content["deadline"], "completed" : False}
     result = db_handler.insert_to_db(task)
@@ -23,9 +23,9 @@ def get_one_task(userid, taskid):
 
 def update_task(content, userid, taskid):
     res = validate_task_fields(content)
-    if res is not None and res[1] == 0:
+    if res[1] == 0:
         return create_json_response(res)
-    elif res is not None and res[1] == 1:
+    elif res[1] == 1:
         content = res[0]
     result = db_handler.update_task_in_db(content, userid, taskid)
     return create_json_response(result)
@@ -50,4 +50,4 @@ def create_json_response(result):
         json_sent = {"status" : "success", "data" : result[0]}
     elif result[1] == 0:
         json_sent = {"status" : "failure", "error" : result[0]}
-    return json.dumps(json_sent)
+    return json_sent
