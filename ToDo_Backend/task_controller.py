@@ -17,17 +17,20 @@ def insert(userid):
 	content = request.get_json()
 	if not isinstance(content, dict):
 		raise JsonError(description='Invalid JSON')
-	return task_model.insert_task(content, userid)
+	result = task_model.insert_task(content, userid)
+	return result[0], result[1]
 
 @app.route('/api/users/<userid>/tasks/', methods = ["GET"])
 @as_json
 def get_all_tasks(userid):
-	return task_model.get_tasks_list(userid)
+	result = task_model.get_tasks_list(userid)
+	return result[0], result[1]
 
 @app.route('/api/users/<userid>/tasks/<taskid>/', methods = ["GET"])
 @as_json
 def get_task(userid, taskid):
-	return task_model.get_one_task(userid, taskid)
+	result = task_model.get_one_task(userid, taskid)
+	return result[0], result[1]
 
 @app.route('/api/users/<userid>/tasks/<taskid>/', methods = ["PUT"])
 @as_json
@@ -35,12 +38,14 @@ def update(userid, taskid):
 	content = request.get_json()
 	if not isinstance(content, dict):
 		raise JsonError(description='Invalid JSON')
-	return task_model.update_task(content, userid, taskid)
+	result = task_model.update_task(content, userid, taskid)
+	return result[0], result[1]
 
 @app.route('/api/users/<userid>/tasks/<taskid>/', methods = ["DELETE"])
 @as_json
 def delete(userid, taskid):
-	return task_model.delete_task(userid, taskid)
+	result = task_model.delete_task(userid, taskid)
+	return result[0], result[1]
 
 if __name__ == '__main__':
    app.run(debug = True)
