@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ToDo App</title>
+    <link rel = "stylesheet" href = "../static/task_style.css">
+    <link rel = "stylesheet" type=text/css href="{{ url_for('static', filename='task_style.css') }}">
+  </head>
+
+  <body onload = "listAllTasks()">
+    <header>
+      <h1>ToDo App</h1><hr>
+    </header>
+    <div class = "collectData">
+      <h3>Add Task</h3>
+      <form action="#" id = "taskForm">
+        <div>
+            <label for = "title">Title:</label>
+            <input type = "text" id = "title" name = "title" minlength="1" maxlength="32" required>
+        </div>
+        <div>
+          <label for = "description">Description:</label>
+          <textarea id = "description" name = "description" minlength="1" maxlength="250" required></textarea>
+        </div>
+        <div>
+          <label for = "deadline">Deadline:</label>
+          <input type = "text" id = "deadline" name = "deadline" placeholder = "eg:16 Jul 2018 09:45:32" required>
+        </div>
+        <div class="button">
+          <button onclick = "insert()" type="submit">Add</button>
+        </div>
+      </form>
+    <p id="output"></p>
+    </div>
+    <div class = "taskContainer">
+      <h4>ToDo List:</h4>
+    </div>
+
+  <script src="{{ url_for('static', filename='task_script.js') }}"></script>
+  </body>
+</html>
