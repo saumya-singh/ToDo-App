@@ -1,0 +1,50 @@
+function insert() {
+		var form = document.getElementById( "test" );
+		form.addEventListener( "submit", function(e) {
+			e.preventDefault();
+		}, false);
+		json_data = toJSONString( form );
+		var XHR = new XMLHttpRequest();
+		XHR.open("POST", "/api/users/123/tasks/");
+		XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+		XHR.send(JSON.stringify(json_data));
+		XHR.onload = function() {
+			var res = XHR.responseText;
+			var divElement = document.querySelector('.taskContainer');
+			jsonData = JSON.parse(res);
+			var para = document.createElement('p');
+			para.textContent = jsonData["data"]["title"];
+			divElement.appendChild(para);
+    }
+}
+
+function listAllTasks() {
+		var XHR = new XMLHttpRequest();
+		XHR.open("GET", "/api/users/123/tasks/");
+		XHR.send();
+		XHR.onload = function() {
+			var res = XHR.responseText;
+			var divElement = document.querySelector('.taskContainer');
+			jsonData = JSON.parse(res);
+			var allTasksInfo = jsonData["data"];
+			for (var i = 0; i < allTasksInfo.length; i++) {
+				var para = document.createElement('p');
+				para.textContent = allTasksInfo[i]["title"];
+				divElement.appendChild(para);
+			}
+		}
+}
+
+function toJSONString(form) {
+		var obj = {};
+		var elements = form.querySelectorAll("input, textarea");
+		for( var i = 0; i < elements.length; ++i ) {
+			var element = elements[i];
+			var name = element.name;
+			var value = element.value;
+			if( name ) {
+				obj[ name ] = value;
+			}
+		}
+    return JSON.stringify(obj);
+	}

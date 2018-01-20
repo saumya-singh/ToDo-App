@@ -1,0 +1,57 @@
+div.collectData, div.taskContainer{
+  margin: 0 auto;
+  width: 500px;
+  padding: 1em;
+  border: 1px solid #CCC;
+  border-radius: 1em;
+}
+
+form div + div {
+  margin-top: 1em;
+}
+
+label {
+  display: inline-block;
+  width: 100px;
+  text-align: right;
+}
+
+input, textarea {
+  font: 1em sans-serif;
+  width: 350px;
+  box-sizing: border-box;
+  border: 1px solid #999;
+}
+
+input:focus, textarea:focus {
+  border-color: #000;
+}
+
+textarea {
+  vertical-align: top;
+  height: 5em;
+}
+
+.button {
+  padding-left: 90px;
+}
+
+button {
+  margin-left: .5em;
+}
+
+.taskContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.taskDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.btnDiv {
+  display: flex;
+  flex-direction: row;
+}
