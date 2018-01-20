@@ -13,9 +13,10 @@ function insert() {
 			var divElement = document.querySelector('.taskContainer');
 			jsonData = JSON.parse(res);
 			if (jsonData["status"] == "success"){
-				var para = document.createElement('p');
-				para.textContent = jsonData["data"]["title"];
-				divElement.appendChild(para);
+				var innerdiv = document.createElement('div');
+				innerdiv.className = "taskDiv";
+				innerdiv.innerHTML = taskMarkup(jsonData["data"]);
+				divElement.appendChild(innerdiv);
 			}
 			else if (jsonData["status"] == "failure") {
 				alert(jsonData["error"]);
@@ -23,6 +24,40 @@ function insert() {
     }
 		document.getElementById("taskForm").reset();
 }
+
+function updateTask(id) {
+	console.log(id)
+}
+
+function deleteTask(id) {
+	//console.log(id)
+	var url = "/api/users/123/tasks/" + id + "/"
+	var XHR = new XMLHttpRequest();
+	XHR.open("DELETE", url);
+	XHR.send();
+	XHR.onload = function() {
+		var res = XHR.responseText;
+		//var divElement = document.querySelector('.taskContainer');
+		jsonData = JSON.parse(res);
+		if (jsonData["status"] == "success"){
+			var divElement = document.getElementById("taskCon");
+			var divChild = document.getElementById(id);
+			var throwawayNode = divElement.removeChild(divChild);
+		}
+		else if (jsonData["status"] == "failure") {
+			alert(jsonData["error"]);
+		}
+	}
+}
+
+function taskMarkup(taskInfo) {
+	var taskMarkup = `<p class = "taskPara">${taskInfo["title"]}</p>
+		<div class = "btnDiv">
+			<button class = "taskUpdateBtn" id = "${taskInfo["_id"]}" target = "_blank" onclick = "updateTask('${taskInfo["_id"]}')">Update</button>
+			<button class = "taskDeleteBtn" id = "${taskInfo["_id"]}" target = "_blank" onclick = "deleteTask('${taskInfo["_id"]}')">Delete</button>
+		</div>`
+	return taskMarkup
+	}
 
 function listAllTasks() {
 		var XHR = new XMLHttpRequest();
@@ -35,26 +70,10 @@ function listAllTasks() {
 			if (jsonData["status"] == "success"){
 				var allTasksInfo = jsonData["data"];
 				for (var i = 0; i < allTasksInfo.length; i++) {
-					var div = document.createElement('div');
-					div.className = "taskDiv";
-					var para = document.createElement('p');
-					para.className = "taskPara";
-					para.textContent = allTasksInfo[i]["title"];
-					var btnDiv = document.createElement('div');
-					btnDiv.className = "btnDiv";
-					var updateBtn = document.createElement('button');
-					updateBtn.className = "taskUpdateBtn";
-					var updateText = document.createTextNode("Update");
-					updateBtn.appendChild(updateText)
-					var deleteBtn = document.createElement('button');
-					deleteBtn.className = "taskDeleteBtn";
-					var deleteText = document.createTextNode("Delete");
-					deleteBtn.appendChild(deleteText)
-					btnDiv.appendChild(updateBtn);
-					btnDiv.appendChild(deleteBtn);
-					div.appendChild(para);
-					div.appendChild(btnDiv);
-					divElement.appendChild(div);
+					var innerdiv = document.createElement('div');
+					innerdiv.className = "taskDiv";
+					innerdiv.innerHTML = taskMarkup(allTasksInfo[i]);
+					divElement.appendChild(innerdiv);
 				}
 			}
 			else if (jsonData["status"] == "failure") {
