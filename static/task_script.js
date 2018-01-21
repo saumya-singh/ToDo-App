@@ -22,16 +22,50 @@ function insert() {
 				alert(jsonData["error"]);
 			}
     }
-		document.getElementById("taskForm").reset();
 }
 
-function updateTask(id) {
-	console.log(id)
+function update(id) {
+	var form = document.getElementById( "taskForm" );
+	form.addEventListener( "submit", function(e) {
+		e.preventDefault();
+	}, false);
+	json_data = toJSONString( form );
+	var XHR = new XMLHttpRequest();
+	var url = "/api/users/123/tasks/" + id + "/";
+	XHR.open("PUT", url);
+	XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	XHR.send(json_data);
+	XHR.onload = function() {
+		var res = XHR.responseText;
+		jsonData = JSON.parse(res);
+		var divElement = document.querySelector('.taskContainer');
+		if (jsonData["status"] == "success"){
+			document.getElementById(id).innerHTML = jsonData["data"]["title"];
+		}
+		else if (jsonData["status"] == "failure") {
+			alert(jsonData["error"]);
+		}
+	}
+	document.getElementById("formHeading").innerHTML = "Add Task";
+	document.getElementById("formButton").innerHTML = "Add";
+	document.getElementById("formButton").onclick = insert;
+	document.getElementById("taskForm").reset();
+}
+
+function updateTask(taskInfo) {
+	taskDetails = JSON.parse(decodeURIComponent(taskInfo));
+	var id  = taskDetails["_id"];
+	document.getElementById("formHeading").innerHTML = "Update Task";
+	document.getElementById("formButton").innerHTML = "Update";
+	document.getElementById("title").value = taskDetails["title"];
+	document.getElementById("description").value = taskDetails["description"];
+	//var date = taskDetails["deadline"];
+	document.getElementById("deadline").value = taskDetails["deadline"];
+	document.getElementById("formButton").onclick = function() { update(id); };
 }
 
 function deleteTask(id) {
-	//console.log(id)
-	var url = "/api/users/123/tasks/" + id + "/"
+	var url = "/api/users/123/tasks/" + id + "/";
 	var XHR = new XMLHttpRequest();
 	XHR.open("DELETE", url);
 	XHR.send();
@@ -47,17 +81,19 @@ function deleteTask(id) {
 		else if (jsonData["status"] == "failure") {
 			alert(jsonData["error"]);
 		}
-	}
-}
+	 }
+ }
 
 function taskMarkup(taskInfo) {
-	var taskMarkup = `<p class = "taskPara">${taskInfo["title"]}</p>
+	updateData = encodeURIComponent(JSON.stringify(taskInfo));
+	deleteData = taskInfo["_id"]
+	var taskMarkup = `<p id = "${taskInfo["_id"]}" class = "taskPara">${taskInfo["title"]}</p>
 		<div class = "btnDiv">
-			<button class = "taskUpdateBtn" id = "${taskInfo["_id"]}" target = "_blank" onclick = "updateTask('${taskInfo["_id"]}')">Update</button>
-			<button class = "taskDeleteBtn" id = "${taskInfo["_id"]}" target = "_blank" onclick = "deleteTask('${taskInfo["_id"]}')">Delete</button>
+			<button class = "taskUpdateBtn" onclick = "updateTask('${updateData}')">Update</button>
+			<button class = "taskDeleteBtn" onclick = "deleteTask('${deleteData}')">Delete</button>
 		</div>`
 	return taskMarkup
-	}
+}
 
 function listAllTasks() {
 		var XHR = new XMLHttpRequest();
@@ -93,5 +129,5 @@ function toJSONString(form) {
 				obj[ name ] = value;
 			}
 		}
-    return JSON.stringify(obj);
-	}
+  return JSON.stringify(obj);
+}
