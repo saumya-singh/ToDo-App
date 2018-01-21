@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>ToDo App</title>
-    <link rel = "stylesheet" href = "../static/task_style.css">
+    <!-- <link rel = "stylesheet" href = "../static/task_style.css"> -->
     <link rel = "stylesheet" type=text/css href="{{ url_for('static', filename='task_style.css') }}">
   </head>
 
@@ -12,7 +12,7 @@
       <h1>ToDo App</h1><hr>
     </header>
     <div class = "collectData">
-      <h3>Add Task</h3>
+      <h3 id = "formHeading">Add Task</h3>
       <form action="#" id = "taskForm">
         <div>
             <label for = "title">Title:</label>
@@ -27,7 +27,7 @@
           <input type = "text" id = "deadline" name = "deadline" placeholder = "eg:16 Jul 2018 09:45:32" required>
         </div>
         <div class="button">
-          <button onclick = "insert()" type="submit">Add</button>
+          <button id = "formButton" onclick = "insert()" type="submit">Add</button>
         </div>
       </form>
     <p id="output"></p>
