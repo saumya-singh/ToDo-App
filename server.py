@@ -14,7 +14,7 @@ mongo = PyMongo(app)
 def home_page():
 	return render_template('index.html')
 
-@app.route("/users/")
+@app.route("/users/123/tasks/")
 def task_page():
 	return render_template('task.html')
 
