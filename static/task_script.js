@@ -99,12 +99,12 @@ function deleteTask(id) {
 }
 
 function taskDetailsMarkup(taskInfo) {
-    var taskDetailsMarkup = `<p class = "title">Title: ${taskInfo["title"]}</p>
-		<p class = "description">Description: ${taskInfo["description"]}</p>
-		<p class = "deadline">Deadline: ${taskInfo["deadline"]}</p>
-		<p class = "completionStatus">Completion Status: ${taskInfo["completed"]}</p>
-		<p class = "createdBy">Created By: ${taskInfo["created_by"]}</p>
-		<p class = "createdTime">Created Time: ${taskInfo["created_time"]}</p>`
+    var taskDetailsMarkup = `<p class = "title"><b>Title: </b>${taskInfo["title"]}</p>
+		<p class = "description"><b>Description: </b>${taskInfo["description"]}</p>
+		<p class = "deadline"><b>Deadline: </b>${taskInfo["deadline"]}</p>
+		<p class = "completionStatus"><b>Completion Status: </b>${taskInfo["completed"]}</p>
+		<p class = "createdBy"><b>Created By: </b>${taskInfo["created_by"]}</p>
+		<p class = "createdTime"><b>Created Time: </b>${taskInfo["created_time"]}</p>`
     return taskDetailsMarkup
 }
 
