@@ -51,6 +51,11 @@ button {
   justify-content: space-between;
 }
 
+.taskMainDiv {
+  display: flex;
+  flex-direction: column;
+}
+
 .btnDiv {
   display: flex;
   flex-direction: row;
