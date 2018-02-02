@@ -51,4 +51,4 @@ def create_json_response(result):
         json_sent = {"status" : "success", "data" : result[0]}
     elif result[1] == 0:
         json_sent = {"status" : "failure", "error" : result[0]}
-    return [json_sent, result[2]]
+    return (json.dumps(json_sent), result[2])
