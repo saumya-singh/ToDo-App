@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ToDo App</title>
+    <!-- <link rel = "stylesheet" href = "../static/task_style.css"> -->
+    <link rel = "stylesheet" type=text/css href="{{ url_for('static', filename='user_style.css') }}">
+  </head>
+
+  <body>
+    <header>
+      <h1>ToDo App</h1>
+      <div class="button">
+        <button id = "signInButton" onclick = "signin()" type="button">SignIn</button>
+      </div>
+    </header><hr>
+    <div class = "collectData">
+      <h3>Sign Up</h3>
+      <form action="#" id = "registerForm">
+        <div>
+            <label for = "username">Username:</label>
+            <input type = "text" id = "username" name = "username" minlength="1" maxlength="32" required>
+        </div>
+        <div>
+          <label for = "email">E-mail:</label>
+          <input type = "email" id = "email" name = "email" minlength="1" maxlength="250" required></textarea>
+        </div>
+        <div>
+          <label for = "password">Password:</label>
+          <input type = "password" id = "password" name = "password" minlength="7" maxlength="15" required>
+        </div>
+        <div class="button">
+          <button id = "formButton" onclick = "register()" type = "submit">Submit</button>
+        </div>
+      </form>
+    </div>
+
+  <script src="{{ url_for('static', filename='user_script.js') }}"></script>
+  </body>
+</html>
