@@ -45,7 +45,7 @@ button {
   flex-direction: column;
 }
 
-.taskDiv {
+.taskDiv, header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
