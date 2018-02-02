@@ -11,9 +11,9 @@ function register() {
   XHR.onload = function() {
       var res = XHR.responseText;
       jsonData = JSON.parse(res);
-      if (jsonData['status'] == 'success') {
+      if (jsonData['status'] === 'success') {
           window.location.href = '/login/'
-      } else if (jsonData['status'] == 'failure') {
+      } else if (jsonData['status'] === 'failure') {
           alert(jsonData['error']);
       }
   }
@@ -32,9 +32,9 @@ function login() {
   XHR.onload = function() {
       var res = XHR.responseText;
       jsonData = JSON.parse(res);
-      if (jsonData['status'] == 'success') {
+      if (jsonData['status'] === 'success') {
         window.location.href = '/tasks/'
-      } else if (jsonData['status'] == 'failure') {
+      } else if (jsonData['status'] === 'failure') {
           alert(jsonData['error']);
       }
   }
@@ -56,4 +56,8 @@ function toJSONString(form) {
 
 function signin() {
     window.location.href = '/login/'
+}
+
+function signup() {
+    window.location.href = '/'
 }
