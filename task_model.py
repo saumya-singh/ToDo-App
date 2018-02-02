@@ -40,8 +40,11 @@ def validate_task_fields(content):
             re.fullmatch(("\s*"), content["deadline"]) is not None:
         return ("Empty fields and Spaces are not allowed", 0, 400)
     try:
-        content["deadline"] = datetime.datetime.strptime(content["deadline"],\
-                                                        '%d %b %Y %H:%M:%S')
+        content["deadline"] = datetime.datetime.strptime(content["deadline"], '%d %b %Y %H:%M:%S')
+        current_time = datetime.datetime.now()
+        time_left = content["deadline"] - current_time
+        if time_left.days < 0:
+            return ("DEADLINE cannot be in the past", 0, 400)
         return (content, 1, 200)
     except:
         return ("DEADLINE not in the right format", 0, 400)
