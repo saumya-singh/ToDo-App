@@ -12,7 +12,7 @@ function insert() {
         var res = XHR.responseText;
         var divElement = document.querySelector('.taskContainer');
         jsonData = JSON.parse(res);
-        if (jsonData == "redirect") {
+        if (jsonData === "redirect") {
             window.location.href = '/login/';
         }
         else if (jsonData["status"] === "success") {
@@ -55,13 +55,13 @@ function update(id) {
         var res = XHR.responseText;
         jsonData = JSON.parse(res);
         var divElement = document.querySelector('.taskContainer');
-        if (jsonData["status"] == "success") {
+        if (jsonData["status"] === "success") {
             document.getElementById(id).getElementsByClassName("taskPara")[0].innerHTML = jsonData["data"]["title"];
             var targetDiv = document.getElementById(id).getElementsByClassName("taskDetail")[0];
             if (targetDiv.style.display === "block") {
                 targetDiv.innerHTML = taskDetailsMarkup(jsonData["data"]);
             }
-        } else if (jsonData["status"] == "failure") {
+        } else if (jsonData["status"] === "failure") {
             alert(jsonData["error"]);
         }
     }
@@ -80,15 +80,14 @@ function updateTask(id) {
     XHR.onload = function() {
         var res = XHR.responseText;
         jsonData = JSON.parse(res);
-        console.log(jsonData)
-        if (jsonData["status"] == "success") {
+        if (jsonData["status"] === "success") {
             document.getElementById("title").value = jsonData["data"]["title"];
             document.getElementById("description").value = jsonData["data"]["description"];
             document.getElementById("deadline").value = jsonData["data"]["deadline"];
             document.getElementById("formButton").onclick = function() {
                 update(id);
             };
-        } else if (jsonData["status"] == "failure") {
+        } else if (jsonData["status"] === "failure") {
             alert(jsonData["error"]);
         }
     }
@@ -104,11 +103,11 @@ function deleteTask(id) {
         var res = XHR.responseText;
         //var divElement = document.querySelector('.taskContainer');
         jsonData = JSON.parse(res);
-        if (jsonData["status"] == "success") {
+        if (jsonData["status"] === "success") {
             var divElement = document.getElementById("taskCon");
             var divChild = document.getElementById(id);
             var throwawayNode = divElement.removeChild(divChild);
-        } else if (jsonData["status"] == "failure") {
+        } else if (jsonData["status"] === "failure") {
             alert(jsonData["error"]);
         }
     }
@@ -118,7 +117,6 @@ function taskDetailsMarkup(taskInfo) {
     var taskDetailsMarkup = `<p class = "title"><b>Title: </b>${taskInfo["title"]}</p>
 		<p class = "description"><b>Description: </b>${taskInfo["description"]}</p>
 		<p class = "deadline"><b>Deadline: </b>${taskInfo["deadline"]}</p>
-		<p class = "completionStatus"><b>Completion Status: </b>${taskInfo["completed"]}</p>
 		<p class = "createdTime"><b>Created Time: </b>${taskInfo["created_time"]}</p>`
     return taskDetailsMarkup
 }
@@ -134,10 +132,10 @@ function taskDetails(id) {
             var res = XHR.responseText;
             //var divElement = document.querySelector('.taskContainer');
             jsonData = JSON.parse(res);
-            if (jsonData["status"] == "success") {
+            if (jsonData["status"] === "success") {
                 targetDiv.innerHTML = taskDetailsMarkup(jsonData["data"]);
                 targetDiv.style.display = "block";
-            } else if (jsonData["status"] == "failure") {
+            } else if (jsonData["status"] === "failure") {
                 alert(jsonData["error"]);
             }
         }
@@ -160,15 +158,13 @@ function taskMarkup(taskInfo) {
 
 function listAllTasks() {
     var XHR = new XMLHttpRequest();
-    console.log("entered");
     XHR.open("GET", "/api/tasks/");
     XHR.send();
     XHR.onload = function() {
         var res = XHR.responseText;
         var divElement = document.querySelector('.taskContainer');
         jsonData = JSON.parse(res);
-        console.log(jsonData)
-        if (jsonData["status"] == "success") {
+        if (jsonData["status"] === "success") {
             var allTasksInfo = jsonData["data"];
             for (var i = 0; i < allTasksInfo.length; i++) {
                 var innerdiv = document.createElement('div');
@@ -178,7 +174,7 @@ function listAllTasks() {
                 divElement.appendChild(innerdiv);
             }
         }
-				else if (jsonData["status"] == "failure") {
+				else if (jsonData["status"] === "failure") {
             alert(jsonData["error"]);
         }
     }
