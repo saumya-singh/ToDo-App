@@ -9,8 +9,11 @@
 
   <body onload = "listAllTasks()">
     <header>
-      <h1>ToDo App</h1><hr>
-    </header>
+      <h1>ToDo App</h1>
+      <div class="button">
+        <button id = "logoutButton" onclick = "logout()" type="button">LogOut</button>
+      </div>
+    </header><hr>
     <div class = "collectData">
       <h3 id = "formHeading">Add Task</h3>
       <form action="#" id = "taskForm">
@@ -30,7 +33,6 @@
           <button id = "formButton" onclick = "insert()" type="submit">Add</button>
         </div>
       </form>
-    <p id="output"></p>
     </div>
     <div id = "taskCon" class = "taskContainer">
       <h4>ToDo List:</h4>
