@@ -7,6 +7,7 @@ from bson.json_util import dumps
 # from server import mongo
 from passlib.apps import custom_app_context as pwd_context
 
+
 def user_registration(content):
     client  = MongoClient()
     db = client.todo_database
@@ -28,7 +29,7 @@ def user_registration(content):
         # user_details = dumps(db.users.find_one({"_id" : ObjectId(user_id)}))
         # json_user_details = json.loads(user_details)
         # json_user_details["_id"] = json_user_details["_id"]["$oid"]
-        return create_json_response("User successfully added", 1, 200)
+        return create_json_response("User successfully added.", 1, 200)
     except:
         return create_json_response("Cannot add the user in the database", 0, 500)
 
@@ -38,14 +39,15 @@ def user_validation(content):
     db = client.todo_database
     email = content["email"]
     password = content["password"]
-    user = db.users.find_one({"email" : email})
+    user = dumps(db.users.find_one({"email" : email}))
     if user is None:
         return create_json_response("No account with this E-mail ID", 0, 400)
+    user = json.loads(user)
+    user['_id'] = user['_id']['$oid']
     password_hash = user["password_hash"]
     verification_result = verify_password(password, password_hash)
     if verification_result is True:
-        login_user(user)
-        return create_json_response("", 1, 200)
+        return create_json_response(user, 1, 200)
     if verification_result is False:
         return create_json_response("Incorrect Password", 0, 400)
 
