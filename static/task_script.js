@@ -5,21 +5,37 @@ function insert() {
     }, false);
     json_data = toJSONString(form);
     var XHR = new XMLHttpRequest();
-    XHR.open("POST", "/api/users/123/tasks/");
+    XHR.open("POST", "/api/tasks/");
     XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     XHR.send(JSON.stringify(json_data));
     XHR.onload = function() {
         var res = XHR.responseText;
         var divElement = document.querySelector('.taskContainer');
         jsonData = JSON.parse(res);
-        if (jsonData["status"] == "success") {
+        if (jsonData == "redirect") {
+            window.location.href = '/login/';
+        }
+        else if (jsonData["status"] === "success") {
             var innerdiv = document.createElement('div');
             innerdiv.className = "taskMainDiv";
             innerdiv.id = jsonData["data"]["_id"];
             innerdiv.innerHTML = taskMarkup(jsonData["data"]);
             divElement.appendChild(innerdiv);
-        } else if (jsonData["status"] == "failure") {
+        }
+        else if (jsonData["status"] === "failure") {
             alert(jsonData["error"]);
+        }
+    }
+}
+
+function logout() {
+    var XHR = new XMLHttpRequest();
+    XHR.open("GET", '/logout/');
+    XHR.send();
+    XHR.onload = function() {
+        var res = XHR.responseText;
+        if (res === "redirect") {
+            window.location.href = '/login/';
         }
     }
 }
@@ -31,7 +47,7 @@ function update(id) {
     }, false);
     json_data = toJSONString(form);
     var XHR = new XMLHttpRequest();
-    var url = "/api/users/123/tasks/" + id + "/";
+    var url = "/api/tasks/" + id + "/";
     XHR.open("PUT", url);
     XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     XHR.send(json_data);
@@ -59,7 +75,7 @@ function updateTask(id) {
     document.getElementById("formHeading").innerHTML = "Update Task";
     document.getElementById("formButton").innerHTML = "Update";
     var XHR = new XMLHttpRequest();
-    var url = "/api/users/123/tasks/" + id + "/";
+    var url = "/api/tasks/" + id + "/";
     XHR.open("GET", url);
     XHR.onload = function() {
         var res = XHR.responseText;
@@ -80,7 +96,7 @@ function updateTask(id) {
 }
 
 function deleteTask(id) {
-    var url = "/api/users/123/tasks/" + id + "/";
+    var url = "/api/tasks/" + id + "/";
     var XHR = new XMLHttpRequest();
     XHR.open("DELETE", url);
     XHR.send();
@@ -103,7 +119,6 @@ function taskDetailsMarkup(taskInfo) {
 		<p class = "description"><b>Description: </b>${taskInfo["description"]}</p>
 		<p class = "deadline"><b>Deadline: </b>${taskInfo["deadline"]}</p>
 		<p class = "completionStatus"><b>Completion Status: </b>${taskInfo["completed"]}</p>
-		<p class = "createdBy"><b>Created By: </b>${taskInfo["created_by"]}</p>
 		<p class = "createdTime"><b>Created Time: </b>${taskInfo["created_time"]}</p>`
     return taskDetailsMarkup
 }
@@ -112,7 +127,7 @@ function taskDetails(id) {
     var targetDiv = document.getElementById(id).getElementsByClassName("taskDetail")[0];
     if (targetDiv.style.display === "none") {
         var XHR = new XMLHttpRequest();
-        var url = "/api/users/123/tasks/" + id + "/";
+        var url = "/api/tasks/" + id + "/";
         XHR.open("GET", url);
         //XHR.send();
         XHR.onload = function() {
@@ -145,12 +160,14 @@ function taskMarkup(taskInfo) {
 
 function listAllTasks() {
     var XHR = new XMLHttpRequest();
-    XHR.open("GET", "/api/users/123/tasks/");
+    console.log("entered");
+    XHR.open("GET", "/api/tasks/");
     XHR.send();
     XHR.onload = function() {
         var res = XHR.responseText;
         var divElement = document.querySelector('.taskContainer');
         jsonData = JSON.parse(res);
+        console.log(jsonData)
         if (jsonData["status"] == "success") {
             var allTasksInfo = jsonData["data"];
             for (var i = 0; i < allTasksInfo.length; i++) {
