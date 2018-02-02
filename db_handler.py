@@ -1,4 +1,4 @@
-import json
+import json, datetime
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from bson import Binary, Code
@@ -63,5 +63,6 @@ def delete_task_from_db(userid, taskid):
 def formatting_task_schema(data):
     data["_id"] = data["_id"]["$oid"]
     data["created_time"] = data["created_time"]["$date"]
-    data["deadline"] = data["deadline"]["$date"]
+    dt = datetime.datetime.strptime(data["deadline"]["$date"], "%Y-%m-%dT%H:%M:%SZ")
+    data["deadline"] = dt.strftime("%d %b %Y %H:%M:%S")
     return data
